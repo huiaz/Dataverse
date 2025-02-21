@@ -1,0 +1,24 @@
+Name: user.rpc
+ListenOn: 0.0.0.0:8001
+Etcd:
+  Hosts: 
+  - 10.10.8.250:2379
+  Key: user.rpc
+DataSource: "root:ufhUhsd7ysdGH@tcp(10.10.8.250:33306)/dataverse_user?parseTime=true&loc=Local"
+PasswordSalt: COGhXZR45qVOmFBz0hWza8cJw3RhX0My
+CacheRedis:
+  - Host: 10.10.8.250:6379
+    Pass:
+    Type: node
+    DB: 0
+BizRedis:
+  Host: 10.10.8.250:6379
+  Pass:
+  Type: node
+  DB: 1
+Prometheus:
+  Host: 0.0.0.0
+  Port: 9101
+  Path: /metrics
+Telemetry:
+  Endpoint: http://10.10.12.134:14268/api/traces

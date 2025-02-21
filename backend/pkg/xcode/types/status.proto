@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package types;
+
+import "google/protobuf/any.proto";
+
+option go_package = "pkg/xcode/types;types";
+
+// Status 表示一个通用的状态消息
+message Status {
+  // 状态码，通常使用标准的HTTP状态码
+  int32 code = 1;
+  
+  // 状态消息，描述状态的文本信息
+  string message = 2;
+  
+  // 详细信息，可以包含任意类型的附加数据
+  repeated google.protobuf.Any details = 3;
+}

@@ -1,0 +1,105 @@
+syntax = "v1"
+
+type (
+	Token {
+		AccessToken  string `json:"access_token"`
+		AccessExpire int64  `json:"access_expire"`
+	}
+	RegisterRequest {
+		Name     string `json:"name"`
+		Password string `json:"password"`
+		Email    string `json:"email"`
+		Mobile   string `json:"mobile"`
+		IsAdmin  bool   `json:"is_admin"`
+	}
+	RegisterResponse {
+		UserId int64 `json:"user_id"`
+	}
+	LoginRequest {
+		Mobile   string `json:"mobile"`
+		Email    string `json:"email"`
+		Password string `json:"password"`
+	}
+	LoginResponse {
+		UserId int64 `json:"user_id"`
+		Token  Token `json:"token"`
+	}
+	UserInfoRequest {
+		UserId int64 `path:"user_id"`
+	}
+	UserInfoResponse {
+		UserId     int64  `json:"user_id"`
+		Name       string `json:"name"`
+		Email      string `json:"email"`
+		Mobile     string `json:"mobile"`
+		IsAdmin    bool   `json:"is_admin"`
+		IsDelete   bool   `json:"is_delete"`
+		LastLogin  int64  `json:"last_login"`
+		CreateTime int64  `json:"create_time"`
+		UpdateTime int64  `json:"update_time"`
+	}
+	UpdateRequest {
+		UserId   int64  `json:"user_id"`
+		Name     string `json:"name"`
+		Password string `json:"password"`
+		Email    string `json:"email"`
+		Mobile   string `json:"mobile"`
+		IsAdmin  bool   `json:"is_admin"`
+	}
+	UpdateResponse {
+		UserId int64 `json:"user_id"`
+	}
+	DeleteRequest {
+		UserId int64 `json:"user_id"`
+	}
+	DeleteResponse {
+		UserId int64 `json:"user_id"`
+	}
+	ListRequest {
+		Cursor   int64 `json:"cursor"`
+		PageSize int64 `json:"page_size"`
+		SortType int32 `json:"sort_type"`
+	}
+	ListResponse {
+		Users      []UserInfoResponse `json:"users"`
+		NextCursor int64              `json:"next_cursor"`
+		IsEnd      bool               `json:"is_end"`
+	}
+)
+
+@server (
+	prefix: /v1/user
+)
+service user {
+	@handler LoginHandler
+	post /login (LoginRequest) returns (LoginResponse)
+}
+
+@server (
+	signature: true
+	jwt:       Auth
+	prefix:    /v1/user
+)
+service user {
+	@handler RegisterHandler
+	post /register (RegisterRequest) returns (RegisterResponse)
+
+	@handler UpdateHandler
+	post /update (UpdateRequest) returns (UpdateResponse)
+
+	@handler DeleteHandler
+	post /delete (DeleteRequest) returns (DeleteResponse)
+
+	@handler UserInfoHandler
+	get /:id/detail (UserInfoRequest) returns (UserInfoResponse)
+
+	@handler GetUserInfoHandler
+	get /info returns (UserInfoResponse)
+
+	@handler ListHandler
+	post /list (ListRequest) returns (ListResponse)
+
+	@handler LogoutHandler
+	post /logout
+}
+

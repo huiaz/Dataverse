@@ -1,0 +1,9 @@
+Name: user
+Host: 0.0.0.0
+Port: 8000
+Auth:
+  AccessSecret: OVGreAPWeRGIjWVJSwp8sTjwFxsHA2pP
+  AccessExpire: 604800
+  RefreshSecret: ah2sd6Rky7iJADyb9Z0Pr3rcXFembcxw
+  RefreshExpire: 2592000
+  RefreshAfter: 604800

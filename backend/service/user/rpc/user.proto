@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "./user";
+
+service User {
+    rpc Create(CreateRequest) returns (CreateResponse);
+    rpc Update(UpdateRequest) returns (UpdateResponse);
+    rpc Delete(DeleteRequest) returns (DeleteResponse);
+    rpc LoginByEmail(LoginByEmailRequest) returns (LoginResponse);
+    rpc LoginByMobile(LoginByMobileRequest) returns (LoginResponse);
+    rpc UserInfo(UserInfoRequest) returns (UserInfoResponse);
+    rpc List(ListRequest) returns (ListResponse);
+}
+
+message CreateRequest {
+    string name = 1;
+    string password = 2;
+    string email = 3;
+    string mobile = 4;
+    bool isAdmin = 5;
+}
+message CreateResponse {
+    int64 userId = 1;
+}
+
+message UpdateRequest {
+    int64 userId = 1;
+    string name = 2;
+    string password = 3;
+    string email = 4;
+    string mobile = 5;
+    bool isAdmin = 6;
+}
+message UpdateResponse {
+    int64 userId = 1;
+}
+
+message DeleteRequest {
+    int64 userId = 1;
+}
+message DeleteResponse {
+    int64 userId = 1;
+}
+message LoginByEmailRequest {
+    string email = 1;
+    string password = 2;
+}
+message LoginByMobileRequest {
+    string mobile = 1;
+    string password = 2;
+}
+message LoginResponse {
+    int64 userId = 1;
+}
+
+message UserInfoRequest {
+    int64 userId = 1;
+}
+message UserInfoResponse {
+    int64 userId = 1;
+    string name = 2;
+    string email = 3;
+    string mobile = 4;
+    bool isAdmin = 5;
+    bool isDelete = 6;
+    int64 lastLogin = 7;
+    int64 createTime = 8;
+    int64 updateTime = 9;
+}
+
+message ListRequest {
+    int64 cursor = 1;
+    int64 pageSize = 2;
+    int32 sortType = 3;
+}
+message ListResponse {
+    repeated UserInfoResponse users = 1;
+    bool isEnd = 2;
+    int64 cursor = 3;
+    int64 userId = 4;
+}
